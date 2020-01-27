@@ -17,18 +17,19 @@
 #' \item Bulkley Stikine
 #' \item Skeena
 #' }
+#' @param status Incident status.  Default is \code{ALL} which returns both ACTIVE and ARCHIVED.  If only want ACTIVE or ARCHIVED, specify in function call
 #' @return An interactive map that can be opened in viewer and analyzed further
 #' @examples
 
-driveBC_map_major <- function(days,region=NA){
+driveBC_map_major <- function(days,region=NA,status='ALL'){
   start <- Sys.Date()-days
   start_date <- paste('>',start,sep="")
   url <- httr::modify_url('https://api.open511.gov.bc.ca/events')
   if (is.na(region)==F){
     area <- paste('drivebc.ca/',region,sep="")
-    resp <- httr::GET(url,query=list(severity='MAJOR',status='ALL',created=start_date,limit=10000,area_id=area))
+    resp <- httr::GET(url,query=list(severity='MAJOR',status=status,created=start_date,limit=10000,area_id=area))
   } else {
-    resp <- httr::GET(url,query=list(severity='MAJOR',status='ALL',created=start_date,limit=10000))
+    resp <- httr::GET(url,query=list(severity='MAJOR',status=status,created=start_date,limit=10000))
   }
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
@@ -67,4 +68,3 @@ driveBC_map_major <- function(days,region=NA){
   }
   mp
 }
-map <- driveBC_map_major(1)

@@ -20,6 +20,10 @@
 #' @param status Incident status.  Default is \code{ALL} which returns both ACTIVE and ARCHIVED.  If only want ACTIVE or ARCHIVED, specify in function call
 #' @return An interactive map that can be opened in viewer and analyzed further
 #' @examples
+#' driveBC_map_major (days = 10,region = 1,status = 'ARCHIVED')
+#' driveBC_map_major (0,1,'ACTIVE')
+#' driveBC_map_major(15)
+
 
 driveBC_map_major <- function(days,region=NA,status='ALL'){
   start <- Sys.Date()-days

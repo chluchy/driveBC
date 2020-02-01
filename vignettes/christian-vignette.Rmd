@@ -49,3 +49,6 @@ To generate a map, simplify specify the input parameters and an interactive map 
 map <- driveBC_map_major(10)
 map
 ```
+![](driveBC_map_major.jpg)
+
+Any active incidents, whether at a specific location or along a section of a highway, will be coloured red, whereas archived incidents are shown in blue.  If the user clicks on either a section of a road or an icon, a text section will pop up which displays the details of the incident.

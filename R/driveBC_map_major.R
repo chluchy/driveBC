@@ -19,6 +19,8 @@
 #' }
 #' @param status Incident status.  Default is \code{ALL} which returns both ACTIVE and ARCHIVED.  If only want ACTIVE or ARCHIVED, specify in function call
 #' @return An interactive map that can be opened in viewer and analyzed further
+#' @export driveBC_map_major
+#' @examples driveBC::driveBC_map_major(days=5,region=1,status='ALL')
 
 
 driveBC_map_major <- function(days,region=NA,status='ALL'){

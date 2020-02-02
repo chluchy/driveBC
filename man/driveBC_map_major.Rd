@@ -33,3 +33,6 @@ An interactive map that can be opened in viewer and analyzed further
 \description{
 Builds an interactive map displaying the locations of active and historical major incidents
 }
+\examples{
+driveBC::driveBC_map_major(days=5,region=1,status='ALL')
+}

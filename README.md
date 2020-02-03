@@ -23,3 +23,4 @@ library(driveBC)
 ## basic example code
 ```
 
+[![Build Status](https://travis-ci.com/chluchy/driveBC.svg?branch=master)](https://travis-ci.com/chluchy/driveBC)

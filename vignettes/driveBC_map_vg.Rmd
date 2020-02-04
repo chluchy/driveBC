@@ -2,7 +2,7 @@
 title: "driveBC function uses"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{christian-vignette}
+  %\VignetteIndexEntry{christian&chris-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -52,3 +52,25 @@ map
 ![](driveBC_map_major.jpg)
 
 Any active incidents, whether at a specific location or along a section of a highway, will be coloured red, whereas archived incidents are shown in blue.  If the user clicks on either a section of a road or an icon, a text section will pop up which displays the details of the incident.
+
+## driveBC_map_route
+
+This function is intended for users who want to specify a starting and destination city/town. The `start` and `dest` parameters for the function enable the user to quickly zero in on all the severity levels currently reported for the various road events between these locations. The different severity levels are as follows: *Minor Events: the event has very limited impact on traffic.* *Moderate Events: the event will have a visible impact on traffic but should not create significant delay; if there is a delay, it should be small and local.* *Major Events: the event will have a significant impact on traffic, probably on a large scale.*  In addition to a dataframe that is returned containing road event information such as the name of the highway, severity level, detailed description of event, and summary label for the road event, an interactive map is produced, highlighting the level of severity on portions of the highways between the selected cities that have the specified road condition.
+
+To generate a map, simplify specify the input parameters and an interactive map will be returned
+
+```{r, eval=FALSE}
+query <- driveBC_map_route("Kelowna", "Summerland")
+query$map
+```
+![](driveBC_map_route.jpeg)
+
+Clicking along each highway will report the condition corresponding to the road event for a specific stretch of highway.
+
+To generate the data frame, select the other output from your query:
+
+```{r}
+query$df
+```
+
+

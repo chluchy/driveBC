@@ -19,28 +19,40 @@
 #' }
 #' @param status Incident status.  Default is \code{ALL} which returns both ACTIVE and ARCHIVED.  If only want ACTIVE or ARCHIVED, specify in function call
 #' @return An interactive map that can be opened in viewer and analyzed further
-#' @examples
+#' @export driveBC_map_major
+#' @examples driveBC::driveBC_map_major(days=5,region=1)
+
 
 driveBC_map_major <- function(days,region=NA,status='ALL'){
+
+  # Modify inputs so can be passed as a valid URL to the API ------------------------------------------------------
   start <- Sys.Date()-days
   start_date <- paste('>',start,sep="")
   url <- httr::modify_url('https://api.open511.gov.bc.ca/events')
+
+  # Make one of to get calls depending if want specific region or entire provice ----------------------------------
   if (is.na(region)==F){
     area <- paste('drivebc.ca/',region,sep="")
     resp <- httr::GET(url,query=list(severity='MAJOR',status=status,created=start_date,limit=10000,area_id=area))
   } else {
     resp <- httr::GET(url,query=list(severity='MAJOR',status=status,created=start_date,limit=10000))
   }
+
+  # Error handling if format is incorrect of invalid url passed ---------------------------------------------------
   if (httr::http_type(resp) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
   if (httr::http_error(resp)){
     stop(paste("Invalid url, please revisit parameters \n",resp$url), call. = FALSE)
   }
+
+  # Parse the data and modify formats as required so can pass as a dataframe to the mapping function --------------
   parsed <- jsonlite::fromJSON(httr::content(resp, "text",encoding = 'UTF-8'))
   df <- data.frame(parsed$events)
   df$areas <- as.character(lapply(df$areas,'[[',2))
   df$day <- as.Date(strftime(df$created,format='%F'))
+
+  # Generate a map with appropriate labelling type for the types of incidents -------------------------------------
   icon.fa <- leaflet::makeAwesomeIcon(icon = 'flag', markerColor = 'red', library='fa', iconColor = 'black')
   mp <- leaflet::leaflet()
   mp <- leaflet::addTiles(mp)

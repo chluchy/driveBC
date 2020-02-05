@@ -69,7 +69,7 @@ Clicking along each highway will report the condition corresponding to the road 
 
 To generate the data frame, select the other output from your query:
 
-```{r}
+```{r, eval=F}
 query$df
 ```
 

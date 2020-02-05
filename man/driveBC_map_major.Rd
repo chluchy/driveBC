@@ -4,7 +4,7 @@
 \alias{driveBC_map_major}
 \title{Leaflet Map}
 \usage{
-driveBC_map_major(days, region = NA)
+driveBC_map_major(days, region = NA, status = "ALL")
 }
 \arguments{
 \item{days}{Number of days to include in search, in addition to today}
@@ -24,10 +24,15 @@ number that corresponds to one of the following regions.
 \item Bulkley Stikine
 \item Skeena
 }}
+
+\item{status}{Incident status.  Default is \code{ALL} which returns both ACTIVE and ARCHIVED.  If only want ACTIVE or ARCHIVED, specify in function call}
 }
 \value{
 An interactive map that can be opened in viewer and analyzed further
 }
 \description{
 Builds an interactive map displaying the locations of active and historical major incidents
+}
+\examples{
+driveBC::driveBC_map_major(days=5,region=1)
 }

@@ -13,8 +13,8 @@ driveBC_map_route <- function(start = "Kelowna",dest = "Vernon"){
 
   #Extract British Columbia city name and longitude/ latitude from data coming from maps library
 
-  can_cities <- canada.cities
-  cities <- str_sub(can_cities$name, end = -4)
+  can_cities <- maps::canada.cities
+  cities <- stringr::str_sub(can_cities$name, end = -4)
   can_cities$city <- cities
   british_columbia <- subset(can_cities, can_cities$country.etc == 'BC')
 
@@ -22,6 +22,16 @@ driveBC_map_route <- function(start = "Kelowna",dest = "Vernon"){
 
   start_city <- subset(british_columbia, british_columbia$city == start)
   dest_city <- subset(british_columbia, british_columbia$city == dest)
+
+  if (is.na(match(start,british_columbia$city))==T){
+    stop("City not in British Columbia", call. = FALSE)
+
+  }
+
+  if (is.na(match(dest,british_columbia$city))==T){
+    stop("City not in British Columbia", call. = FALSE)
+
+  }
 
   #Set xmin, ymin, xmax, and ymax values based on starting/ destination cities
   #Add buffer to coordinates so bbox is drawn slightly larger, to include roads that may curve outside of bbox
@@ -60,7 +70,7 @@ driveBC_map_route <- function(start = "Kelowna",dest = "Vernon"){
                                 df$geography$coordinates[i][[1]][,2],
                                 popup = df$event_subtypes[i],color = 'yellow' )
     }
-  
+
     if (df$geography$type[i]=='LineString'&df$severity[i]=='MINOR'){
       mp <- leaflet::addPolylines(mp,df$geography$coordinates[i][[1]][,1],
                                 df$geography$coordinates[i][[1]][,2],

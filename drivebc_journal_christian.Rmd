@@ -1,0 +1,47 @@
+---
+title: "Data 534_Project"
+author: "Christian Hluchy"
+date: "20/01/2020"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+The following is a journal used to document my individual progress / contributions to a Drive BC API wrapper for data 534.  The intention is to make daily updates of progress show details of collaboration with my partner, Chris Donoff.
+
+# January 20, 2020
+Today I formally kicked off the project after reading many of the resources suggested by Dr. Narayan.  I found the zapier course to be quite helpful, as the pizza example was quite easy to follow.  Furthermore the httr vignette will be the basis for the structure of our project, and will help translate what we've learned doing APIs in Python to R.  
+
+I also had time to get started coding after familiarizing myself with the httr library.  Arguably the most helpful thing was finding that even though R doesn't have dictionary's, parameters can still be passed in a http GET by sending a list.  This will help substantially when thinking of customized queries for the web wrapper.  
+
+# January 21, 2020
+In order to come up with some useful functions, I spent a portion of the day sending different parameters to the API to see what size (and kind) of datasets one can receive.  Few critical learnings where how to pass a '=>' date to the API in order to return events after a starting point, and also what the limits are on number of items.  Once I had these sorted out, I started to import datasets, specifying event type (Major / Minor), status (Active / Archived), and also naming specific highways or regions within BC.  In all cases, a commonality is that every instance has a geography feature, which describes the location as either a point or a linespace, then specifies the corresponding GPS coordinates.  This data is obviously quite interesting, and provides an opportunity to look at ways to visualize where events are occuring in BC.  After doing some reading on available packages, I decided to use leaflet which is an interactive device that can be used to display where accidents are located through BC.  It's a powerful, relatively straightforward library, and I'm excited to incorporate it into at least one function.  
+
+# January 21, 2020
+Knowing that this lab also requires testing, I started to look at how to configure a .travis.yml file for R.  It seems quite straightforward, so the next step was to read about testthat, which is used for unit testing in R.  Throughout this, I'm constantly referring to the AntWeb API that was again linked by Dr. Narayan, at https://github.com/ropensci/AntWeb.  Since I'm familiar with most of the steps, albeit using Python, I'm optimistic I can continue to progress through the assignment.
+
+# January 23, 2020
+After taking a day off to study, I read the majority of Hadley's **R Packages** and immediately realized how using the devtools library would make my life easier.  I started an R project, ran usethis to get the basic structure and then added my function `driveBC_map_major` to the R directory.  At this point I also recognized that I should have not had library calls in the code, so I modified all imported function calls so that `GET()` became `httr::GET()`.  Happy with the code at this point, I pivoted to function documentation.  Specifically, I started using `devtools::document()` so that any documentation I added would be automatically incorporated in the project.
+
+# January 26, 2020
+Today I started testing the driveBC_map_major function.  Since the function returns a leaflet map (which is a list of length 8), I tested the code by passing both correct and incorrect parameters to ensure strong coverage.  Since some of the code is dependent on active incidents, if for example there's no active incidents, some of the code will not be tested.  
+
+# January 29, 2020
+Today chris and I added the .travis.yml file to our repo and tested to see if it works with the test code.  I had to change the setting of warnings as errors = FALSE, otherwise no problems were encountered.
+
+# January 30, 2020
+I searched for an appropriate software licence and found one recommended by the R community.  This was then pushed to our repo.
+
+# January 31, 2020
+I started on a vignette for the R package.  I again referred to the Hadley R Package book recommended by Dr Narayan.  I've realized that for the vignette I'll need to take a snapshot of a generated map.  
+
+# February 5, 2020
+We spent a lot of time today ensuring that our combined package received a passing stamp from Travis, and that all the vignettes, help files, etc were up to date.  Once we were happy, we merged our branch into the master and submitted.  
+
+# February 6, 2020
+In preparation for presenting today, I noticed that I should have passed the 'update' date instead of start date to the driveBC_map_major function, which I will change in the future.
